@@ -178,7 +178,7 @@ public class Task1
 
             for (int j = 0; j < _width; j++)
             {
-                currentRow.Append(_matrix[i, j] + " ");
+                currentRow.Append(_matrix[i, j] + "\t");
             }
 
             matrix.Append(currentRow + "\n");

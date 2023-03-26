@@ -1,8 +1,8 @@
 ﻿using SigmaSoftware;
 
 Task1 task1 = new Task1(5, 5);
-task1.Fill(Task1.FillDirection.CounterClockwise);
-Console.WriteLine(task1);
+task1.Fill(Task1.FillDirection.Clockwise);
+Console.WriteLine("Task 1\n" + task1);
 
 int[][] matrix =
 {
@@ -11,5 +11,5 @@ int[][] matrix =
     new[] { 1, 2, 3 }
 };
 Task2 task2 = new Task2(matrix);
-Console.WriteLine(task2);
+Console.WriteLine("Task 2 \n" + task2);
 task2.GetTheLongestColouredLine();

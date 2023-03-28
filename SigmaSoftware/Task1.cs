@@ -3,7 +3,8 @@
 namespace SigmaSoftware;
 
 public class Task1
-{
+{//Вітаю. Перше завдання по створенню репозиторію Ви виконали, але не чітко дотримались запропонованих назв та структури. Task1\Exercise1... Прохання виправити
+    
     private readonly int[,] _matrix;
 
     private readonly int _height;

@@ -1,5 +1,5 @@
 ﻿using SigmaSoftware;
-
+//Вітаю. Перше завдання по створенню репозиторію Ви виконали, однак не дотримались запропонованої системи назв. Прохання виправити.
 Task1 task1 = new Task1(5, 5);
 task1.Fill(Task1.FillDirection.Clockwise);
 Console.WriteLine("Task 1\n" + task1);

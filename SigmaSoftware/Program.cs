@@ -13,7 +13,7 @@ int[][] matrix =
 Console.WriteLine("Task 2 \n" + task2);
 task2.GetTheLongestColouredLine();*/
 
-using SigmaSoftware.HW2;
+/* using SigmaSoftware.HW2;
 
 Console.Write("Input username: ");
 string username = Console.ReadLine()!;
@@ -96,4 +96,12 @@ void BlockThread(int seconds)
     Console.WriteLine(seconds);
     Thread.Sleep(TimeSpan.FromSeconds(1));
     BlockThread(seconds - 1);
-}
+} */
+
+UserInputActions inputActions = new ("Hello im Maxym yyyyey");
+
+Console.WriteLine(inputActions.GetIndexSecondEnteringSubstring("TEST") ?? -1);
+
+System.Console.WriteLine(inputActions.GetCountWordsWithUppercase());
+
+System.Console.WriteLine(inputActions.ReplaceAllLetterDuplicates("LOL"));

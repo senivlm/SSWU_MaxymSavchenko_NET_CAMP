@@ -65,7 +65,6 @@ public class Simulator
     {
         double currentWaterLevel = _tower.CurrentVolume;
         Console.WriteLine($"Water: {_tower}L");
-
         if (currentWaterLevel == 0)
         {
             _pump.TurnOn();

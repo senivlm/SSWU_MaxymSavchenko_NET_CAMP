@@ -19,7 +19,7 @@ public class Task1
     public Task1() : this(5, 5) { }
 
     public void Fill(FillDirection fillDirection = FillDirection.Clockwise)
-    {
+    {// Не оптимально по кількості умов.
         int maximumHeight = _height;
         int maximumWidth = _width;
         
@@ -81,7 +81,7 @@ public class Task1
         
         
         void Move(Direction direction)
-        {
+        {// Йде використання локальних змінних. які не описані в цьому методі.
             switch (direction)
             {
                 case Direction.Up:

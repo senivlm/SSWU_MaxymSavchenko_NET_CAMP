@@ -57,6 +57,7 @@ public class Task2
             for (int j = 0; j < _width; )
             {
                 int currentColour = _matrix[i][j];
+                // Алгоритм виглядає дуже  красивим і зрозумілим. Єдиний недолік - використання додаткової пам'яті, якого можна уникнути.
                 List<int> nums = _matrix[i].Skip(j).TakeWhile(element => element == currentColour).ToList();
                 
                 int lineLength = nums.Count;
@@ -73,7 +74,7 @@ public class Task2
                 j += nums.Count;
             }
         }
-
+// Результат пошуку повинен передаватись через параметри методу.
         Console.WriteLine($"Line at row {row}, indices({begin}, {end})\n\tColour: {colour}");
     }
     

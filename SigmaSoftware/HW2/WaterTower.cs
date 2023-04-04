@@ -5,10 +5,10 @@ public class WaterTower
     public int CurrentVolume { get; private set; }
     public int MaxVolume { get; }
     
-    public WaterTower()
+    public WaterTower(int currentVolume = 500, int maxVolume = 1000)
     {
-        CurrentVolume = 500;
-        MaxVolume = 1000;
+        CurrentVolume = Math.Max(0, currentVolume);
+        MaxVolume = Math.Max(CurrentVolume, maxVolume);
     }
 
     public int DecreaseWater(int volume)

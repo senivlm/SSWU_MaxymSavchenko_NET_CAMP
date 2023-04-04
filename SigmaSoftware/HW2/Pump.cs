@@ -1,14 +1,15 @@
 ﻿namespace SigmaSoftware.HW2;
 
-public class Pump
+public class Pump : object
 {
-    private readonly WaterTower _tower;
+    private WaterTower _tower;
     public int Speed { get; }
     private bool _isWorking;
+    public bool State => _isWorking;
     public Pump(WaterTower tower, int speed = 100)
     {
         _tower = tower;
-        Speed = speed;
+        Speed = Math.Max(speed, 10);
     }
 
     public async Task PumpUpTower()
@@ -50,8 +51,11 @@ public class Pump
         _isWorking = false;
     }
 
-    public bool State => _isWorking;
-    
+    public void Disconnect()
+    {
+        _tower = null;
+    }
+
     public override string ToString()
     {
         return $"Working: {_isWorking}";

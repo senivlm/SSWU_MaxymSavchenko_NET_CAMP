@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SigmaSoftware;
+namespace SigmaSoftware.HW1;
 
 public class Task1
 {
@@ -8,6 +8,8 @@ public class Task1
 
     private readonly int _height;
     private readonly int _width;
+
+    public int Square => _height * _width;
     public Task1(int width, int height)
     {
         _matrix = new int[height, width];
@@ -18,157 +20,60 @@ public class Task1
 
     public Task1() : this(5, 5) { }
 
-    public void Fill(FillDirection fillDirection = FillDirection.Clockwise)
+    public void Fill()
     {
-        int maximumHeight = _height;
-        int maximumWidth = _width;
+        Direction[] allDirections = Enum.GetValues<Direction>(); 
+
         
-        int minimumHeight = 0;
-        int minimumWidth = 1;
-
-        int currentHeight = 0;
-        int currentWidth = 0;
-
-        int maximumValue = _width * _height;
+        int indexCurrentDirection = 0;
         int currentValue = 1;
-        
-        switch (fillDirection)
+        int currentWidth = 0;
+        int currentHeight = 0;
+        while (currentValue <= Square)
         {
-            case FillDirection.Clockwise:
-                (minimumHeight, minimumWidth) = (minimumWidth, minimumHeight);
-                while (currentValue <= maximumValue)
-                {
-                    try
-                    {
-                        Move(Direction.Right);
-
-                        Move(Direction.Down);
-
-                        Move(Direction.Left);
-                        
-                        Move(Direction.Up);
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                }
-
-                break;
-            case FillDirection.CounterClockwise:
-                while (currentValue <= maximumValue)
-                {
-                    try
-                    {
-                        Move(Direction.Down);
-
-                        Move(Direction.Right);
-
-                        Move(Direction.Up);
-
-                        Move(Direction.Left);
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                }
-
-                break;
-            default:
-                throw new ArgumentException("Unknown direction.");
-        }
-        
-        
-        void Move(Direction direction)
-        {
-            switch (direction)
+            _matrix[currentHeight, currentWidth] = currentValue++;
+            switch (allDirections[indexCurrentDirection])
             {
-                case Direction.Up:
-                    for (; currentHeight >= minimumHeight; currentHeight--)
-                    {
-                        _matrix[currentHeight, currentWidth] = currentValue++;
-                        if (currentHeight == minimumHeight) break;
-                    }
-                    minimumHeight++;
-                    
-                    if (fillDirection == FillDirection.CounterClockwise)
+                case Direction.Right:
+                    currentWidth++;
+                    if (currentWidth == _width || _matrix[currentHeight, currentWidth] != 0)
                     {
                         currentWidth--;
-                    }
-                    else
-                    {
-                        currentWidth++;
-                    }
-                    
-                    break;
-                case Direction.Left:
-                    for (; currentWidth >= minimumWidth; currentWidth--)
-                    {
-                        _matrix[currentHeight, currentWidth] = currentValue++;
-                        if (currentWidth == minimumWidth) break;
-                    }
-                    minimumWidth++;
-                    
-                    if (fillDirection == FillDirection.CounterClockwise)
-                    {
                         currentHeight++;
+                        indexCurrentDirection = ++indexCurrentDirection % allDirections.Length;
                     }
-                    else
-                    {
-                        currentHeight--;
-                    }
-                    
                     break;
                 case Direction.Down:
-                    for (; currentHeight < maximumHeight; currentHeight++)
-                    {
-                        _matrix[currentHeight, currentWidth] = currentValue++;
-                        if (currentHeight + 1 == maximumHeight) break;
-                    }
-                    maximumHeight--;
-                    
-                    if (fillDirection == FillDirection.CounterClockwise)
-                    {
-                        currentWidth++;
-                    }
-                    else
+                    currentHeight++;
+                    if (currentHeight == _height || _matrix[currentHeight, currentWidth] != 0)
                     {
                         currentWidth--;
-                    }
-                    
-                    break;
-                case Direction.Right:
-                    for (; currentWidth < maximumWidth; currentWidth++)
-                    {
-                        _matrix[currentHeight, currentWidth] = currentValue++;
-                        if (currentWidth + 1 == maximumWidth) break;
-                    }
-                    maximumWidth--;
-                    
-                    if (fillDirection == FillDirection.CounterClockwise)
-                    {
                         currentHeight--;
-                    }
-                    else
-                    {
-                        currentHeight++;
+                        indexCurrentDirection = ++indexCurrentDirection % allDirections.Length;
                     }
                     break;
-                default:
-                    throw new ArgumentException("Invalid direction.");
+                case Direction.Left:
+                    currentWidth--;
+                    if (currentWidth == -1 || _matrix[currentHeight, currentWidth] != 0)
+                    {
+                        currentWidth++;
+                        currentHeight--;
+                        indexCurrentDirection = ++indexCurrentDirection % allDirections.Length;
+                    }
+                    break;
+                case Direction.Up:
+                    currentHeight--;
+                    if (currentHeight == -1 || _matrix[currentHeight, currentWidth] != 0)
+                    {
+                        currentWidth++;
+                        currentHeight++;
+                        indexCurrentDirection = ++indexCurrentDirection % allDirections.Length;
+                    }
+                    break;
             }
-            if (currentValue > maximumValue) throw new Exception();
         }
     }
 
-
-    public enum FillDirection
-    {
-        Clockwise,
-        CounterClockwise
-    }
-    
     public override string ToString()
     {
         StringBuilder matrix = new StringBuilder();
@@ -189,9 +94,9 @@ public class Task1
     
     private enum Direction
     {
-        Up,
-        Left,
+        Right,
         Down,
-        Right
+        Left,
+        Up 
     }
 }

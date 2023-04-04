@@ -6,7 +6,7 @@ public class Simulator
     private readonly Pump _pump;
     private readonly IList<string> _logs;
 
-    private static readonly Simulator _instance = new Simulator();
+    private static readonly Simulator instance = new Simulator();
 
     public EventHandler<string> LogEvent;
 
@@ -22,7 +22,7 @@ public class Simulator
 
     public static Simulator GetInstance()
     {
-        return _instance;
+        return instance;
     }
     
     public void GetWater(int volume, User user)

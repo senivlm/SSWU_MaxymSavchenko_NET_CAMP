@@ -1,17 +1,29 @@
-﻿/*Task1 task1 = new Task1(5, 5);
-task1.Fill(Task1.FillDirection.Clockwise);
-Console.WriteLine("Task 1\n" + task1);
+﻿/*
+using SigmaSoftware.HW1;
+
+Task1 test = new Task1();
+test.Fill();
+
+Console.WriteLine(test);
+*/
+
+/*
+using SigmaSoftware.HW1;
 
 int[][] matrix =
 {
     new[] { 1, 1, 1 },
     new[] { 1, 2, 2 },
     new[] { 1, 2, 3 }
-};*/
+};
 
-/*Task2 task2 = new Task2(matrix);
+
+
+Task2 task2 = new Task2(matrix);
 Console.WriteLine("Task 2 \n" + task2);
-task2.GetTheLongestColouredLine();*/
+(int row, int begin, int end, int color) = task2.GetTheLongestColouredLine();
+
+Console.WriteLine($"Longest line at row: {row}. \n\tBegin: {begin}; End: {end}; \n\tColor: {color}");*/
 
 /* using SigmaSoftware.HW2;
 
@@ -98,10 +110,12 @@ void BlockThread(int seconds)
     BlockThread(seconds - 1);
 } */
 
-UserInputActions inputActions = new ("Hello im Maxym yyyyey");
+/*
+using SigmaSoftware.HW3;
 
-Console.WriteLine(inputActions.GetIndexSecondEnteringSubstring("TEST") ?? -1);
+string text = "Testtest";
 
-System.Console.WriteLine(inputActions.GetCountWordsWithUppercase());
 
-System.Console.WriteLine(inputActions.ReplaceAllLetterDuplicates("LOL"));
+Console.WriteLine(text.GetCountWordsWithUppercase());
+Console.WriteLine(text.GetIndexSecondEnteringSubstring("test"));
+Console.WriteLine(text.ReplaceAllLetterDuplicates("LOL"));*/

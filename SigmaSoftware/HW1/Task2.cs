@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace SigmaSoftware;
+namespace SigmaSoftware.HW1;
 
 public class Task2
 {
@@ -41,14 +40,14 @@ public class Task2
 
     public Task2() : this(5, 5) { }
 
-    public void GetTheLongestColouredLine()
+    public (int row, int begin, int end, int color) GetTheLongestColoredLine()
     {
         int row = -1;
         
         int begin = -1;
         int end = -1;
         
-        int colour = -1;
+        int color = -1;
         
         int count = -1;
 
@@ -56,25 +55,25 @@ public class Task2
         {
             for (int j = 0; j < _width; )
             {
-                int currentColour = _matrix[i][j];
-                List<int> nums = _matrix[i].Skip(j).TakeWhile(element => element == currentColour).ToList();
+                int currentColor = _matrix[i][j];
+                IEnumerable<int> nums = _matrix[i].Skip(j).TakeWhile(element => element == currentColor);
                 
-                int lineLength = nums.Count;
+                int lineLength = nums.Count();
                 
                 if (count < lineLength)
                 {
                     row = i;
                     begin = j;
-                    end = j + nums.Count - 1;
-                    colour = currentColour;
+                    end = j + lineLength - 1;
+                    color = currentColor;
                     count = lineLength;
                 }
                 
-                j += nums.Count;
+                j += lineLength;
             }
         }
 
-        Console.WriteLine($"Line at row {row}, indices({begin}, {end})\n\tColour: {colour}");
+        return (row, begin, end, color);
     }
     
     private void FillRandom()

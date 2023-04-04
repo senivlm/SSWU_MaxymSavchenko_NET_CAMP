@@ -3,8 +3,8 @@
 public class Pump : object
 {
     private WaterTower _tower;
-    public int Speed { get; }
     private bool _isWorking;
+    public int Speed { get; }
     public bool State => _isWorking;
     public Pump(WaterTower tower, int speed = 100)
     {

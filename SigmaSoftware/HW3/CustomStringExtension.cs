@@ -2,7 +2,9 @@ using System.Text;
 
 namespace SigmaSoftware.HW3;
 public static class CustomStringExtenstion
-{
+{// розділяйте задачі за визначеною схемою!
+    // 1 задача. Чому немає зв'язку між класами Користувач і Вежа. Воду не отримують через посередника. Також помпа і вежа теж взаємодіють, чого не видно з діаграми. 
+    // на діаграмі не правильно відображається подія.
 
     public static string ReplaceAllLetterDuplicates(this string text, string replaceText)
     {

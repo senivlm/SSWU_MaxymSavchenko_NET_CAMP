@@ -1,5 +1,5 @@
 ﻿namespace SigmaSoftware.HW2;
-
+// Це дійсно задача на події, але трішки неакуратно технічно зроблена. Симулятор Одинак -вітається. 
 public class Simulator
 {
     private readonly WaterTower _tower;

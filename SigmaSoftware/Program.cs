@@ -107,6 +107,9 @@ Console.WriteLine(inputActions.GetCountWordsWithUppercase());
 
 Console.WriteLine(inputActions.ReplaceAllLetterDuplicates("LOL"));*/
 
+using SigmaSoftware.HW5;
+using SigmaSoftware.HW5.Task1;
+
 string textUA = """
 Поки сонце засідало, місто оживало від звуку гудків машин та гомону перехожих. Люди бігли, щоб встигнути на свій потяг, а вуличні торговці розставляли свої тележки, щоб продавати свої товари. Неонові ліхтарі будівель освітлювали лінію горизонту, кидая барвисте сяйво на вулиці міста.
  
@@ -160,3 +163,63 @@ Apartment? apartment = service.GetApartmentWithGreaterDebt();
 
 service.PrintAllApartments();*/
 
+Tree[] trees =
+{
+    new (-4, 4),
+    new (-3, -9),
+    new (-2, 12),
+    new (10, 11),
+    new (8, -1),
+    new (-13, -12),
+    new (13, -11),
+    new (-10, 5),
+    new (7, 0),
+    new (-7, 2),
+    new (2, 9),
+    new (10, -7),
+    new (2, -1),
+    new (-10, -12),
+    new (5, -6),
+    new (-6, 5),
+    new (7, -10),
+    new (-3, 4),
+    new (-4, 6),
+    new (10, -14),
+    new (-9, 14),
+    new (-13, -6),
+    new (-4, -2),
+    new (4, 0),
+    new (9, 5),
+    new (7, 6),
+    new (2, -5),
+    new (-12, -7),
+    new (14, -7),
+    new (14, -8),
+    new (-11, 11),
+    new (-13, 0),
+    new (10, 2),
+    new (-3, 9),
+    new (8, 3),
+    new (-3, -7),
+    new (-11, -7),
+    new (11, -11),
+    new (9, -10),
+    new (-7, -13),
+    new (-11, -12),
+    new (13, -2),
+    new (-2, -3),
+    new (1, 14),
+    new (-3, -10),
+    new (13, 5)
+};
+
+
+GardenBuilder gardenBuilder = new GardenBuilder();
+
+gardenBuilder.AddTreeRange(trees);
+
+Garden garden = gardenBuilder.Build();
+
+garden.PrintGarden();
+garden.PrintTreesIndexes();
+garden.PrintFenceIndexes();

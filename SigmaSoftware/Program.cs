@@ -107,8 +107,7 @@ Console.WriteLine(inputActions.GetCountWordsWithUppercase());
 
 Console.WriteLine(inputActions.ReplaceAllLetterDuplicates("LOL"));*/
 
-using SigmaSoftware.HW5;
-using SigmaSoftware.HW5.Task1;
+using SigmaSoftware.HW5.Task2;
 
 string textUA = """
 Поки сонце засідало, місто оживало від звуку гудків машин та гомону перехожих. Люди бігли, щоб встигнути на свій потяг, а вуличні торговці розставляли свої тележки, щоб продавати свої товари. Неонові ліхтарі будівель освітлювали лінію горизонту, кидая барвисте сяйво на вулиці міста.
@@ -163,7 +162,7 @@ Apartment? apartment = service.GetApartmentWithGreaterDebt();
 
 service.PrintAllApartments();*/
 
-Tree[] trees =
+/*Tree[] trees =
 {
     new (-4, 4),
     new (-3, -9),
@@ -222,4 +221,329 @@ Garden garden = gardenBuilder.Build();
 
 garden.PrintGarden();
 garden.PrintTreesIndexes();
-garden.PrintFenceIndexes();
+garden.PrintFenceIndexes();*/
+
+
+ShopOrganizer organizer = new ShopOrganizer();
+
+List<ShopBox> bought = new List<ShopBox>();
+
+while (true)
+{
+    Console.WriteLine("Choose action" +
+                      "\n\t1 - Check all products" +
+                      "\n\t2 - Add to cart product" +
+                      "\n\t3 - Remove from cart" +
+                      "\n\t4 - Add product to shop" +
+                      "\n\t5 - Delete product from shop" +
+                      "\n\t6 - Buy" +
+                      "\n\t7 - Get all bought");
+    
+    if (!int.TryParse(Console.ReadLine()!, out int action))
+    {
+        Console.WriteLine("\nError");
+        continue;
+    }
+
+    Console.WriteLine();
+
+    switch (action)
+    {
+        case 1:
+            CheckAllProducts(organizer);
+            break;
+        case 2:
+            AddProductToCart(organizer);
+            break;
+        case 3:
+            RemoveProductFromCart(organizer);
+            break;
+        case 4:
+            AddProductToShop(organizer);
+            break;
+        case 5:
+            DeleteProductFromShop(organizer);
+            break;
+        case 6:
+            ShopBox shopBox = organizer.Buy();
+            if (shopBox.SectionBoxes.Any())
+            {
+                bought.Add(shopBox);
+            }
+            break;
+        case 7:
+            PrintAllBought(bought);
+            break;
+        default:
+            Console.WriteLine("Error");
+            break;
+    }
+    
+    Console.WriteLine();
+}
+
+void CheckAllProducts(ShopOrganizer shopOrganizer)
+{ 
+    Console.WriteLine(string.Join("\n", shopOrganizer.GetProducts()));
+}
+
+void AddProductToCart(ShopOrganizer shopOrganizer)
+{
+    Console.Clear();
+    Dictionary<string, IEnumerable<ShopProduct>> products = shopOrganizer.GetProductsWithSections();
+
+    bool isFirstLoop = true;
+    do
+    {
+        Console.WriteLine();
+
+        if (!isFirstLoop)
+        {
+            Console.Write("> Type '1' to continue or anything else to exit: ");
+            string input = Console.ReadLine()!;
+            if (input != "1")
+            {
+                break;
+            }
+        }
+
+        isFirstLoop = false;
+        int i = 1;
+        Dictionary<int, ShopProduct> productsWithId = new Dictionary<int, ShopProduct>();
+        foreach (KeyValuePair<string, IEnumerable<ShopProduct>> sectionWithProducts in products)
+        {
+            Console.WriteLine($"Section: {sectionWithProducts.Key}");
+            foreach (ShopProduct product in sectionWithProducts.Value)
+            {
+                productsWithId.Add(i, product);
+                Console.WriteLine($"\t[{i++}] {product.Name}, {product.Quantity} piece(s)");
+            }
+
+            Console.WriteLine();
+        }
+        
+        Console.Write("> Product id: ");
+        if (!int.TryParse(Console.ReadLine()!, out int productId) ||
+            productId < 1 ||
+            productId > productsWithId.Values.Count)
+        {
+            Console.WriteLine("Incorrect input!");
+            continue;
+        }
+
+        Guid correctId = productsWithId[productId].Id;
+        Console.Write("> Quantity: ");
+        if (!int.TryParse(Console.ReadLine()!, out int quantity) || quantity < 1)
+        {
+            Console.WriteLine("Incorrect input!");
+            continue;
+        }
+
+        bool isSucceeded = organizer.AddToCartProduct(correctId, quantity);
+
+        if (!isSucceeded)
+        {
+            Console.WriteLine("Program error");
+            continue;
+        }
+
+        Console.WriteLine("\nSuccessfully!\n");
+    } while (true);
+}
+
+void RemoveProductFromCart(ShopOrganizer shopOrganizer)
+{
+    List<ShopProduct> cartProducts = shopOrganizer.GetCartProducts().ToList();
+    
+    if (!cartProducts.Any())
+    {
+        Console.WriteLine("There are no products.");
+        return;
+    }
+
+    int index = 1;
+    foreach (ShopProduct product in cartProducts)
+    {
+        Console.WriteLine($"[{index++}] {product.Name} | {product.Quantity} piece(s)");
+    }
+
+    Console.Write("> Product Id: ");
+    if (!int.TryParse(Console.ReadLine()!, out int productId) ||
+        productId < 1 ||
+        productId > cartProducts.Count)
+    {
+        Console.WriteLine("Incorrect id.");
+    }
+
+    ShopProduct chosenProduct = cartProducts[productId - 1];
+    Console.Write("> Quantity: ");
+    if (!int.TryParse(Console.ReadLine()!, out int quantity) ||
+        quantity < 1 ||
+        quantity > chosenProduct.Quantity)
+    {
+        Console.WriteLine("Incorrect quantity.");
+    }
+
+    bool isSucceeded = shopOrganizer.RemoveFromCartProduct(chosenProduct.Id, quantity);
+
+    if (!isSucceeded)
+    {
+        Console.WriteLine("Program error.");
+        return;
+    }
+
+    Console.WriteLine("Successfully!");
+    
+    Console.WriteLine("> Type 1 to continue or anything else to exit to menu: ");
+    if (Console.ReadLine()! == "1")
+    {
+        RemoveProductFromCart(organizer);
+    }
+}
+
+void AddProductToShop(ShopOrganizer shopOrganizer)
+{
+    Console.Write("> Name: ");
+    string name = Console.ReadLine()!;
+
+    Console.Write("> Section(if more than one split by '/'): ");
+    string section = Console.ReadLine()!;
+
+    Console.Write("> Input height: ");
+    if (!double.TryParse(Console.ReadLine()!, out double height))
+    {
+        AddProductToShop(shopOrganizer);
+        return;
+    }
+    
+    Console.Write("> Input width: ");
+    if (!double.TryParse(Console.ReadLine()!, out double width))
+    {
+        AddProductToShop(shopOrganizer);
+        return;
+    }
+    
+    Console.Write("> Input length: ");
+    if (!double.TryParse(Console.ReadLine()!, out double length))
+    {
+        AddProductToShop(shopOrganizer);
+        return;
+    }
+    
+    Console.Write("> Input quantity: ");
+    if (!int.TryParse(Console.ReadLine()!, out int quantity))
+    {
+        AddProductToShop(shopOrganizer);
+        return;
+    }
+
+    Console.WriteLine($"Name: {name} | Section: {section} | Quantity: {quantity}");
+    Console.WriteLine($"\tHeight: {height}");
+    Console.WriteLine($"\tWidth: {width}");
+    Console.WriteLine($"\tLength: {length}");
+
+    Console.Write("Is correct? (y/n): ");
+    ConsoleKey key = Console.ReadKey().Key;
+
+    while (key != ConsoleKey.Y && key != ConsoleKey.N)
+    {
+        key = Console.ReadKey().Key;
+    }
+
+    if (key == ConsoleKey.Y)
+    {
+        ShopProduct product = new ShopProduct(name, section, height, width, length, quantity);
+        shopOrganizer.AddProductToShop(product);
+        Console.WriteLine("Successfully!");
+    }
+    
+}
+
+void DeleteProductFromShop(ShopOrganizer shopOrganizer)
+{
+    Console.Write("> Are you sure?(y/n):");
+    ConsoleKey key = Console.ReadKey().Key;
+
+    while (key != ConsoleKey.Y && key != ConsoleKey.N)
+    {
+        Console.Write("> Do you want delete product?(y/n):");
+        key = Console.ReadKey().Key;
+    }
+
+    if (key == ConsoleKey.N)
+    {
+        return;
+    }
+
+    Console.WriteLine();
+    
+    List<ShopProduct> products = shopOrganizer.GetProducts().ToList();
+
+    int index = 1;
+    foreach (ShopProduct product in products)
+    {
+        Console.WriteLine($"[{index++}] {product.Name}");
+    }
+
+    Console.Write("> Product id: ");
+
+    if (!int.TryParse(Console.ReadLine()!, out int id))
+    {
+        DeleteProductFromShop(shopOrganizer);
+        return;
+    }
+
+    bool isSucceeded = shopOrganizer.DeleteProductFromShop(products[id - 1].Id);
+
+    if (!isSucceeded)
+    {
+        Console.WriteLine("Program error.");
+    }
+    else
+    {
+        Console.WriteLine("Successfully!");
+    }
+}
+
+void PrintAllBought(IEnumerable<ShopBox> shopBoxes)
+{
+    int boxNumber = 1;
+
+    foreach (ShopBox box in shopBoxes)
+    {
+        Console.WriteLine($"Box №{boxNumber++}");
+
+        foreach (SectionBox sectionBox in box.SectionBoxes)
+        {
+            PrintBox(sectionBox);
+        }
+    }
+}
+
+void PrintBox(SectionBox sectionBox, int embeddings = 1)
+{
+    string embeddingsSectionName = string.Join("", Enumerable.Repeat("\t", embeddings));
+    string embeddingsProduct = string.Join("", Enumerable.Repeat("\t", embeddings + 1));
+    Console.WriteLine(embeddingsSectionName + "Section: " + sectionBox.Name);
+    Console.WriteLine(embeddingsSectionName + $"Height: {sectionBox.Height}, Width: {sectionBox.Width}, Length: {sectionBox.Length}");
+    
+    if(sectionBox.ProductsBoxes.Any())
+    {
+        Console.WriteLine(embeddingsSectionName + "Products");
+        foreach (ProductBox productBox in sectionBox.ProductsBoxes)
+        {
+            Console.WriteLine(embeddingsProduct + productBox.Product.Name + " | " + productBox.Product.Quantity +
+                              " piece(s)");
+        }
+    }
+
+    if (!sectionBox.SectionBoxes.Any())
+    {
+        return;
+    }
+    Console.WriteLine(embeddingsSectionName + "Boxes");
+    foreach (SectionBox nextSectionBox in sectionBox.SectionBoxes)
+    {
+        PrintBox(nextSectionBox, embeddings + 1);
+    }
+}

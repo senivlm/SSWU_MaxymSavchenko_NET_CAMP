@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace SigmaSoftware.HW4;
 
 public class TextHandler
-{
+{// Тут мала б бути колекція стрічок, яку не можна за умовою зливати в одну стрічку!!! А це алгоритмічно складніша задача.
   private readonly string _text;
 
   public TextHandler(string text)

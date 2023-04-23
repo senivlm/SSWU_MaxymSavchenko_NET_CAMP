@@ -1,15 +1,17 @@
 ﻿using System.Diagnostics;
 
 namespace SigmaSoftware.HW4.Task3;
-
+// Не побачила копії екрану виконання.(((
 public class ApartmentService
 {
   private readonly List<Apartment> _apartments = new List<Apartment>();
   public int ApartmentCount { get; private set; }
+  
   public int Quarter { get; private set; }
 
   public ApartmentService(string fileName)
   {
+    // А винятки вже відмінились?
     string[] information = File.ReadAllLines(fileName);
 
     IEnumerable<string> dataInfo = information[0].Split(';')[..2];

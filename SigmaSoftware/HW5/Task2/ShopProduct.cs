@@ -1,5 +1,5 @@
 ﻿namespace SigmaSoftware.HW5.Task2;
-
+// немає ієрархічної структури.
 public class ShopProduct
 {
   public Guid Id { get; } = Guid.NewGuid();

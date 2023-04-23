@@ -3,6 +3,7 @@
 public class SectionBox
 {
   public string Name { get; set; }
+  // порушення інкапсуляції
   public List<ProductBox> ProductsBoxes { get; set; }
   public List<SectionBox> SectionBoxes { get; set; }
   

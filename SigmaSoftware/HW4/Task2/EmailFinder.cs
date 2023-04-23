@@ -33,7 +33,7 @@ public static class EmailFinder
   }
 
   private static bool IsMail(string row)
-  {
+  {// нормальні герої завжди ідуть в обхід. Ви ж розумієте, що я не для цього дала таку задачу...
     try
     {
       MailAddress address = new MailAddress(row);

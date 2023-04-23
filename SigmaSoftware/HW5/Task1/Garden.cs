@@ -1,7 +1,7 @@
 ﻿namespace SigmaSoftware.HW5.Task1;
 
 public class Garden
-{
+{// координати можуть бути дійсними. а тому все складніше.Це не графічні точки.
   private readonly int[,] _garden;
   private readonly List<Point> _fenceBorders;
   private readonly double _fenceLength;
@@ -20,7 +20,7 @@ public class Garden
   public void PrintGarden()
   {
     for (int i = 0; i < _garden.GetLength(0) + 1; i++)
-    {
+    {// на кожному кроці питати чи це не перший, погана ідея. Та і формат дивний...
       if (i == 0)
       {
         Console.Write($"{"@", 3}|");

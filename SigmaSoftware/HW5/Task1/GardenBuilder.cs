@@ -1,5 +1,5 @@
 ﻿namespace SigmaSoftware.HW5.Task1;
-
+//Maxyv	Savchenko			0	0	98	98	70	30	78,2
 public class GardenBuilder
 {
   
